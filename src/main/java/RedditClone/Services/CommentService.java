@@ -1,6 +1,7 @@
 package RedditClone.Services;
 
 import RedditClone.DTOs.CommentRequestDTO;
+import RedditClone.DTOs.CommentResponseDTO;
 import RedditClone.DTOs.Mappers.CommentMapper;
 import RedditClone.Model.Comment;
 import RedditClone.Model.Post;
@@ -8,6 +9,7 @@ import RedditClone.Model.User;
 import RedditClone.Repositories.CommentRepository;
 import RedditClone.Repositories.PostRepository;
 import RedditClone.Repositories.UserRepository;
+import RedditClone.exceptions.ResourceNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -67,7 +71,7 @@ public class CommentService {
         comment.setUser(user);
 
         //trimitem mail
-        emailService.sendMessage(post.getUser().getEmail(),"new comment at your post", comment.getText() +" BY "+user.getUsername());
+        emailService.sendMessage(post.getUser().getEmail(),"new comment at your post", comment.getText() +" BY "+user.getName());
         return commentRepository.save(comment);
     }
 
@@ -96,6 +100,19 @@ public class CommentService {
         return root.path("has_profanity").asBoolean();
 
     }
+    @Transactional
+    public List<CommentResponseDTO> getCommentsByPost(Long id) {
+        Post foundPost = postRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Post ID not found"));
 
-
+        return foundPost.getComments().stream()
+                .map(comment -> commentMapper.mapCommentToDTO(comment))
+                .collect(Collectors.toList());
+    }
+    @Transactional
+    public List<CommentResponseDTO> getCommentsByUser(Long id) {
+        User foundUser = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User ID not found"));
+        return foundUser.getUserComments().stream()
+                .map(comment -> commentMapper.mapCommentToDTO(comment))
+                .collect(Collectors.toList());
+    }
 }

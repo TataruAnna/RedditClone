@@ -13,8 +13,4 @@ public abstract class SubredditMapper {
     @Mapping(target = "createdDate", expression = "java(java.time.LocalDateTime.now())")
     public abstract Subreddit mapSubredditRequestDTOtoSubreddit(SubredditRequestDTO subredditRequestDTO);
 
-   /* @org.mapstruct.Mapping(source = "subreddit.name", target = "name")
-    @org.mapstruct.Mapping(source = "subreddit.description", target = "description")
-    @org.mapstruct.Mapping(source = "date", target = "createdDate")
-    public abstract SubredditRequestDTO mapSubredditRequestDTOToSubreddit(Subreddit subreddit);*/
 }

@@ -16,9 +16,9 @@ public class User {
     @Column
     private String email;
     @Column
-    private String username;
+    private String name;
     @Column
-    private String password;
+    private String pass;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JsonManagedReference("user-post")
@@ -51,11 +51,11 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String email, String username, String password, List<Post>posts, List<Comment>comments, List<Role>roles) {
+    public User(Long id, String email, String name, String pass, List<Post>posts, List<Comment>comments, List<Role>roles) {
         this.id = id;
         this.email = email;
-        this.username = username;
-        this.password = password;
+        this.name = name;
+        this.pass = pass;
         this.userPosts = userPosts;
         this.userComments = userComments;
         this.roles = roles;
@@ -77,20 +77,20 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String username) {
+        this.name = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPass() {
+        return pass;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPass(String password) {
+        this.pass = password;
     }
 
     public List<Post> getUserPosts() {

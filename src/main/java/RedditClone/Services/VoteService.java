@@ -23,13 +23,15 @@ public class VoteService {
     private UserRepository userRepository;
 
     private VoteRepository voteRepository;
+    private UserService userService;
 
 
     @Autowired
-    public VoteService(PostRepository postRepository, UserRepository userRepository, VoteRepository voteRepository) {
+    public VoteService(PostRepository postRepository, UserRepository userRepository, VoteRepository voteRepository, UserService userService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.voteRepository = voteRepository;
+        this.userService = userService;
     }
 
     @Transactional
@@ -65,4 +67,6 @@ public class VoteService {
         return voteResponseDTO;
 
     }
+
+
 }

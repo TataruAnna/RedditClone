@@ -1,5 +1,6 @@
 package RedditClone.Model;
 
 public enum RoleType {
-    ADMIN, USER
+    ROLE_ADMIN,
+    ROLE_USER
 }
